@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package github
+package gitee
 
 import (
 	"context"
@@ -27,7 +27,7 @@ type repository struct {
 	Fork          bool      `json:"fork"`
 	HTMLURL       string    `json:"html_url"`
 	SSHURL        string    `json:"ssh_url"`
-	CloneURL      string    `json:"clone_url"`
+	CloneURL      string    `json:"html_url"`
 	DefaultBranch string    `json:"default_branch"`
 	CreatedAt     time.Time `json:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at"`
@@ -35,20 +35,19 @@ type repository struct {
 		Admin bool `json:"admin"`
 		Push  bool `json:"push"`
 		Pull  bool `json:"pull"`
-	} `json:"permissions"`
+	} `json:"permission"`
 }
 
 type hook struct {
-	ID     int      `json:"id,omitempty"`
-	Name   string   `json:"name"`
-	Events []string `json:"events"`
-	Active bool     `json:"active"`
-	Config struct {
-		URL         string `json:"url"`
-		Secret      string `json:"secret"`
-		ContentType string `json:"content_type"`
-		InsecureSSL string `json:"insecure_ssl,omitempty"`
-	} `json:"config"`
+	ID                 int    `json:"id,omitempty"`
+	Name               string `json:"name"`
+	URL                string `json:"url"`
+	Secret             string `json:"password"`
+	PushEvents         bool   `json:"push_events"`
+	TagEvents          bool   `json:"tag_push_events"`
+	PullRequestEvents  bool   `json:"merge_requests_events"`
+	IssueEvents        bool   `json:"issues_events"`
+	IssueCommentEvents bool   `json:"note_events"`
 }
 
 // RepositoryService implements the repository service for
@@ -78,7 +77,7 @@ func (s *RepositoryService) FindPerms(ctx context.Context, repo string) (*scm.Pe
 	path := fmt.Sprintf("repos/%s", repo)
 	out := new(repository)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
-	spew.Dump(path)
+	spew.Dump(out)
 	return convertRepository(out).Perm, res, err
 }
 
@@ -110,21 +109,30 @@ func (s *RepositoryService) ListStatus(ctx context.Context, repo, ref string, op
 func (s *RepositoryService) CreateHook(ctx context.Context, repo string, input *scm.HookInput) (*scm.Hook, *scm.Response, error) {
 	path := fmt.Sprintf("repos/%s/hooks", repo)
 	in := new(hook)
-	in.Active = true
 	in.Name = "web"
-	in.Config.Secret = input.Secret
-	in.Config.ContentType = "json"
-	in.Config.URL = input.Target
-	if input.SkipVerify {
-		in.Config.InsecureSSL = "1"
+	in.Secret = input.Secret
+	in.URL = input.Target
+	// gitee don't support this
+	// if input.SkipVerify {
+	// 	in.Config.InsecureSSL = "1"
+	// }
+	if input.Events.Push {
+		in.PushEvents = true
 	}
-	in.Events = append(
-		input.NativeEvents,
-		convertFromHookEvents(input.Events)...,
-	)
+	if input.Events.Tag {
+		in.TagEvents = true
+	}
+	if input.Events.Issue {
+		in.IssueEvents = true
+	}
+	if input.Events.IssueComment {
+		in.IssueCommentEvents = true
+	}
+	if input.Events.PullRequest {
+		in.PullRequestEvents = true
+	}
 	out := new(hook)
 	res, err := s.client.do(ctx, "POST", path, in, out)
-	spew.Dump(path, in)
 	return convertHook(out), res, err
 }
 
@@ -142,36 +150,31 @@ func (s *RepositoryService) CreateStatus(ctx context.Context, repo, ref string, 
 	return convertStatus(out), res, err
 }
 
-// CreateDeployStatus creates a new deployment status.
-func (s *RepositoryService) CreateDeployStatus(ctx context.Context, repo string, input *scm.DeployStatus) (*scm.DeployStatus, *scm.Response, error) {
-	path := fmt.Sprintf("repos/%s/deployments/%d/statuses", repo, input.Number)
-	in := &deployStatus{
-		State:          convertFromState(input.State),
-		Environment:    input.Environment,
-		EnvironmentURL: input.EnvironmentURL,
-		Description:    input.Desc,
-		TargetURL:      input.Target,
-	}
-	out := new(deployStatus)
-	res, err := s.client.do(ctx, "POST", path, in, out)
-	return convertDeployStatus(out), res, err
-}
-
 // UpdateHook updates a repository webhook.
 func (s *RepositoryService) UpdateHook(ctx context.Context, repo, id string, input *scm.HookInput) (*scm.Hook, *scm.Response, error) {
 	path := fmt.Sprintf("repos/%s/hooks/%s", repo, id)
 	in := new(hook)
-	in.Active = true
-	in.Config.Secret = input.Secret
-	in.Config.ContentType = "json"
-	in.Config.URL = input.Target
-	if input.SkipVerify {
-		in.Config.InsecureSSL = "1"
+	in.Secret = input.Secret
+	in.URL = input.Target
+	// gitee don't support this
+	// if input.SkipVerify {
+	// 	in.Config.InsecureSSL = "1"
+	// }
+	if input.Events.Push {
+		in.PushEvents = true
 	}
-	in.Events = append(
-		input.NativeEvents,
-		convertFromHookEvents(input.Events)...,
-	)
+	if input.Events.Tag {
+		in.TagEvents = true
+	}
+	if input.Events.Issue {
+		in.IssueEvents = true
+	}
+	if input.Events.IssueComment {
+		in.IssueCommentEvents = true
+	}
+	if input.Events.PullRequest {
+		in.PullRequestEvents = true
+	}
 	out := new(hook)
 	res, err := s.client.do(ctx, "PATCH", path, in, out)
 	return convertHook(out), res, err
@@ -223,13 +226,33 @@ func convertHookList(from []*hook) []*scm.Hook {
 	return to
 }
 
+func convertGiteeEvents(from *hook) scm.HookEvents {
+	e := scm.HookEvents{}
+	if from.PushEvents {
+		e.Push = true
+	}
+	if from.TagEvents {
+		e.Tag = true
+	}
+	if from.IssueEvents {
+		e.Issue = true
+	}
+	if from.IssueCommentEvents {
+		e.IssueComment = true
+	}
+	if from.PullRequestEvents {
+		e.PullRequest = true
+	}
+	return e
+}
+
 func convertHook(from *hook) *scm.Hook {
 	return &scm.Hook{
 		ID:         strconv.Itoa(from.ID),
-		Active:     from.Active,
-		Target:     from.Config.URL,
-		Events:     from.Events,
-		SkipVerify: from.Config.InsecureSSL == "1",
+		Active:     true,
+		Target:     from.URL,
+		Events:     convertFromHookEvents(convertGiteeEvents(from)),
+		SkipVerify: false,
 	}
 }
 
@@ -269,15 +292,6 @@ type status struct {
 	Context     string    `json:"context"`
 }
 
-type deployStatus struct {
-	ID             int64  `json:"id"`
-	Environment    string `json:"environment"`
-	EnvironmentURL string `json:"environment_url"`
-	State          string `json:"state"`
-	TargetURL      string `json:"log_url"`
-	Description    string `json:"description"`
-}
-
 func convertStatusList(from []*status) []*scm.Status {
 	to := []*scm.Status{}
 	for _, v := range from {
@@ -292,17 +306,6 @@ func convertStatus(from *status) *scm.Status {
 		Label:  from.Context,
 		Desc:   from.Description,
 		Target: from.TargetURL,
-	}
-}
-
-func convertDeployStatus(from *deployStatus) *scm.DeployStatus {
-	return &scm.DeployStatus{
-		Number:         from.ID,
-		State:          convertState(from.State),
-		Desc:           from.Description,
-		Target:         from.TargetURL,
-		Environment:    from.Environment,
-		EnvironmentURL: from.EnvironmentURL,
 	}
 }
 
