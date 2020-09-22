@@ -13,7 +13,6 @@ import (
 	"regexp"
 
 	"github.com/drone/go-scm/scm"
-	"github.com/drone/go-scm/scm/driver/internal/hmac"
 	"github.com/drone/go-scm/scm/driver/internal/null"
 )
 
@@ -22,6 +21,7 @@ type webhookService struct {
 }
 
 func (s *webhookService) Parse(req *http.Request, fn scm.SecretFunc) (scm.Webhook, error) {
+
 	data, err := ioutil.ReadAll(
 		io.LimitReader(req.Body, 10000000),
 	)
@@ -30,17 +30,17 @@ func (s *webhookService) Parse(req *http.Request, fn scm.SecretFunc) (scm.Webhoo
 	}
 
 	var hook scm.Webhook
-	switch req.Header.Get("X-GitHub-Event") {
-	case "push":
+	switch req.Header.Get("X-Gitee-Event") {
+	case "Push Hook":
 		hook, err = s.parsePushHook(data)
-	case "create":
+	case "Create Hook":
 		hook, err = s.parseCreateHook(data)
-	case "delete":
+	case "Delete Hook":
 		hook, err = s.parseDeleteHook(data)
 	case "pull_request":
 		hook, err = s.parsePullRequestHook(data)
-	case "deployment":
-		hook, err = s.parseDeploymentHook(data)
+	// case "deployment":
+	// 	hook, err = s.parseDeploymentHook(data)
 	// case "pull_request_review_comment":
 	// case "issues":
 	// case "issue_comment":
@@ -51,18 +51,17 @@ func (s *webhookService) Parse(req *http.Request, fn scm.SecretFunc) (scm.Webhoo
 		return nil, err
 	}
 
-	// get the gogs signature key to verify the payload
-	// signature. If no key is provided, no validation
+	// get the gitlab shared token to verify the payload
+	// authenticity. If no key is provided, no validation
 	// is performed.
-	key, err := fn(hook)
+	token, err := fn(hook)
 	if err != nil {
 		return hook, err
-	} else if key == "" {
+	} else if token == "" {
 		return hook, nil
 	}
 
-	sig := req.Header.Get("X-Hub-Signature")
-	if !hmac.ValidatePrefix(data, []byte(key), sig) {
+	if token != req.Header.Get("X-Gitee-Token") {
 		return hook, scm.ErrSignatureInvalid
 	}
 

@@ -9,3 +9,5 @@
 - [x] git
 - [x] linker
 - [x] org
+- [ ] hook
+  - [ ] pull_request event not work
