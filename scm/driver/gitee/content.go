@@ -17,6 +17,7 @@ type contentService struct {
 }
 
 func (s *contentService) Find(ctx context.Context, repo, path, ref string) (*scm.Content, *scm.Response, error) {
+	return nil, nil, scm.ErrNotSupported
 	endpoint := fmt.Sprintf("repos/%s/contents/%s?ref=%s", repo, path, ref)
 	out := new(content)
 	res, err := s.client.do(ctx, "GET", endpoint, nil, out)
@@ -28,6 +29,7 @@ func (s *contentService) Find(ctx context.Context, repo, path, ref string) (*scm
 }
 
 func (s *contentService) Create(ctx context.Context, repo, path string, params *scm.ContentParams) (*scm.Response, error) {
+	return nil, scm.ErrNotSupported
 	endpoint := fmt.Sprintf("repos/%s/contents/%s", repo, path)
 	in := &contentCreateUpdate{
 		Message: params.Message,
@@ -49,6 +51,7 @@ func (s *contentService) Create(ctx context.Context, repo, path string, params *
 }
 
 func (s *contentService) Update(ctx context.Context, repo, path string, params *scm.ContentParams) (*scm.Response, error) {
+	return nil, scm.ErrNotSupported
 	endpoint := fmt.Sprintf("repos/%s/contents/%s", repo, path)
 	in := &contentCreateUpdate{
 		Message: params.Message,
@@ -73,6 +76,7 @@ func (s *contentService) Delete(ctx context.Context, repo, path, ref string) (*s
 }
 
 func (s *contentService) List(ctx context.Context, repo, path, ref string, _ scm.ListOptions) ([]*scm.ContentInfo, *scm.Response, error) {
+	return nil, nil, scm.ErrNotSupported
 	endpoint := fmt.Sprintf("repos/%s/contents/%s?ref=%s", repo, path, ref)
 	out := []*content{}
 	res, err := s.client.do(ctx, "GET", endpoint, nil, &out)

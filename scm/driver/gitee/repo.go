@@ -10,7 +10,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/drone/go-scm/scm"
 )
 
@@ -27,7 +26,7 @@ type repository struct {
 	Fork          bool      `json:"fork"`
 	HTMLURL       string    `json:"html_url"`
 	SSHURL        string    `json:"ssh_url"`
-	CloneURL      string    `json:"html_url"`
+	CloneURL      string    `json:"clone_url"`
 	DefaultBranch string    `json:"default_branch"`
 	CreatedAt     time.Time `json:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at"`
@@ -77,7 +76,6 @@ func (s *RepositoryService) FindPerms(ctx context.Context, repo string) (*scm.Pe
 	path := fmt.Sprintf("repos/%s", repo)
 	out := new(repository)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
-	spew.Dump(out)
 	return convertRepository(out).Perm, res, err
 }
 
@@ -211,7 +209,7 @@ func convertRepository(from *repository) *scm.Repository {
 		Link:     from.HTMLURL,
 		Branch:   from.DefaultBranch,
 		Private:  from.Private,
-		Clone:    from.CloneURL,
+		Clone:    from.HTMLURL, // gitee no clone url, only html url
 		CloneSSH: from.SSHURL,
 		Created:  from.CreatedAt,
 		Updated:  from.UpdatedAt,

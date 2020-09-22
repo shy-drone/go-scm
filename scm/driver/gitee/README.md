@@ -11,3 +11,8 @@
 - [x] org
 - [ ] hook
   - [ ] pull_request event not work
+
+## Known Bug
+
+`pr` and `tag` is still not trigger ci/cd
+

@@ -31,13 +31,11 @@ func (s *webhookService) Parse(req *http.Request, fn scm.SecretFunc) (scm.Webhoo
 
 	var hook scm.Webhook
 	switch req.Header.Get("X-Gitee-Event") {
-	case "Push Hook":
+	case "Push Hook": // commit push, branch push
 		hook, err = s.parsePushHook(data)
-	case "Create Hook":
+	case "Tag Push Hook":
 		hook, err = s.parseCreateHook(data)
-	case "Delete Hook":
-		hook, err = s.parseDeleteHook(data)
-	case "pull_request":
+	case "Merge Request Hook":
 		hook, err = s.parsePullRequestHook(data)
 	// case "deployment":
 	// 	hook, err = s.parseDeploymentHook(data)
@@ -80,11 +78,6 @@ func (s *webhookService) parseCreateHook(data []byte) (scm.Webhook, error) {
 	if err != nil {
 		return nil, err
 	}
-	if src.RefType == "branch" {
-		dst := convertBranchHook(src)
-		dst.Action = scm.ActionCreate
-		return dst, nil
-	}
 	dst := convertTagHook(src)
 	dst.Action = scm.ActionCreate
 	return dst, nil
@@ -106,16 +99,6 @@ func (s *webhookService) parseDeleteHook(data []byte) (scm.Webhook, error) {
 	return dst, nil
 }
 
-func (s *webhookService) parseDeploymentHook(data []byte) (scm.Webhook, error) {
-	src := new(deploymentHook)
-	err := json.Unmarshal(data, src)
-	if err != nil {
-		return nil, err
-	}
-	dst := convertDeploymentHook(src)
-	return dst, nil
-}
-
 func (s *webhookService) parsePullRequestHook(data []byte) (scm.Webhook, error) {
 	src := new(pullRequestHook)
 	err := json.Unmarshal(data, src)
@@ -124,24 +107,14 @@ func (s *webhookService) parsePullRequestHook(data []byte) (scm.Webhook, error) 
 	}
 	dst := convertPullRequestHook(src)
 	switch src.Action {
-	case "assigned", "unassigned", "review_requested", "review_request_removed":
+	case "assign", "test", "approved", "tested", "merge":
 		return nil, nil
-	case "labeled":
-		dst.Action = scm.ActionLabel
-	case "unlabeled":
-		dst.Action = scm.ActionUnlabel
-	case "opened":
+	case "open":
 		dst.Action = scm.ActionOpen
-	case "edited":
-		dst.Action = scm.ActionUpdate
-	case "closed":
+	case "close":
 		// if merged == true
 		//    dst.Action = scm.ActionMerge
 		dst.Action = scm.ActionClose
-	case "reopened":
-		dst.Action = scm.ActionReopen
-	case "synchronize":
-		dst.Action = scm.ActionSync
 	}
 	return dst, nil
 }
@@ -228,29 +201,11 @@ type (
 	}
 
 	pullRequestHook struct {
-		Action      string     `json:"action"`
+		Action      string     `json:"action"` // 'assign' -> 'test' -> 'open' -> ('close'->|'approved') -> 'tested' -> 'merge' -> 'master commit push(not pr event is push event)'
 		Number      int        `json:"number"`
 		PullRequest pr         `json:"pull_request"`
 		Repository  repository `json:"repository"`
 		Sender      user       `json:"sender"`
-	}
-
-	// github deployment webhook payload
-	deploymentHook struct {
-		Deployment struct {
-			ID             int64       `json:"id"`
-			Creator        user        `json:"creator"`
-			Description    null.String `json:"description"`
-			Environment    null.String `json:"environment"`
-			EnvironmentURL null.String `json:"environment_url"`
-			URL            null.String `json:"url"`
-			Sha            null.String `json:"sha"`
-			Ref            null.String `json:"ref"`
-			Task           null.String `json:"task"`
-			Payload        interface{} `json:"payload"`
-		} `json:"deployment"`
-		Repository repository `json:"repository"`
-		Sender     user       `json:"sender"`
 	}
 )
 
@@ -377,47 +332,6 @@ func convertPullRequestHook(src *pullRequestHook) *scm.PullRequestHook {
 		PullRequest: *convertPullRequest(&src.PullRequest),
 		Sender:      *convertUser(&src.Sender),
 	}
-}
-
-func convertDeploymentHook(src *deploymentHook) *scm.DeployHook {
-	dst := &scm.DeployHook{
-		Number: src.Deployment.ID,
-		Data:   src.Deployment.Payload,
-		Desc:   src.Deployment.Description.String,
-		Ref: scm.Reference{
-			Name: src.Deployment.Ref.String,
-			Path: src.Deployment.Ref.String,
-			Sha:  src.Deployment.Sha.String,
-		},
-		Repo: scm.Repository{
-			ID:        fmt.Sprint(src.Repository.ID),
-			Namespace: src.Repository.Owner.Login,
-			Name:      src.Repository.Name,
-			Branch:    src.Repository.DefaultBranch,
-			Private:   src.Repository.Private,
-			Clone:     src.Repository.CloneURL,
-			CloneSSH:  src.Repository.SSHURL,
-			Link:      src.Repository.HTMLURL,
-		},
-		Sender:    *convertUser(&src.Sender),
-		Task:      src.Deployment.Task.String,
-		Target:    src.Deployment.Environment.String,
-		TargetURL: src.Deployment.EnvironmentURL.String,
-	}
-	// handle deployment events for commits which
-	// use a different payload structure and lack
-	// branch or reference details.
-	if len(dst.Ref.Name) == 40 && dst.Ref.Name == dst.Ref.Sha {
-		dst.Ref.Name = ""
-		dst.Ref.Path = ""
-		return dst
-	}
-	if tagRE.MatchString(dst.Ref.Name) {
-		dst.Ref.Path = scm.ExpandRef(dst.Ref.Path, "refs/tags/")
-	} else {
-		dst.Ref.Path = scm.ExpandRef(dst.Ref.Path, "refs/heads/")
-	}
-	return dst
 }
 
 // regexp help determine if the named git object is a tag.

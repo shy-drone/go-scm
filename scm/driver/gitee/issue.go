@@ -17,6 +17,7 @@ type issueService struct {
 }
 
 func (s *issueService) Find(ctx context.Context, repo string, number int) (*scm.Issue, *scm.Response, error) {
+	return nil, nil, scm.ErrNotSupported
 	path := fmt.Sprintf("repos/%s/issues/%d", repo, number)
 	out := new(issue)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
@@ -24,6 +25,7 @@ func (s *issueService) Find(ctx context.Context, repo string, number int) (*scm.
 }
 
 func (s *issueService) FindComment(ctx context.Context, repo string, index, id int) (*scm.Comment, *scm.Response, error) {
+	return nil, nil, scm.ErrNotSupported
 	path := fmt.Sprintf("repos/%s/issues/comments/%d", repo, id)
 	out := new(issueComment)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
@@ -31,6 +33,7 @@ func (s *issueService) FindComment(ctx context.Context, repo string, index, id i
 }
 
 func (s *issueService) List(ctx context.Context, repo string, opts scm.IssueListOptions) ([]*scm.Issue, *scm.Response, error) {
+	return nil, nil, scm.ErrNotSupported
 	path := fmt.Sprintf("repos/%s/issues?%s", repo, encodeIssueListOptions(opts))
 	out := []*issue{}
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -38,6 +41,7 @@ func (s *issueService) List(ctx context.Context, repo string, opts scm.IssueList
 }
 
 func (s *issueService) ListComments(ctx context.Context, repo string, index int, opts scm.ListOptions) ([]*scm.Comment, *scm.Response, error) {
+	return nil, nil, scm.ErrNotSupported
 	path := fmt.Sprintf("repos/%s/issues/%d/comments?%s", repo, index, encodeListOptions(opts))
 	out := []*issueComment{}
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -45,6 +49,7 @@ func (s *issueService) ListComments(ctx context.Context, repo string, index int,
 }
 
 func (s *issueService) Create(ctx context.Context, repo string, input *scm.IssueInput) (*scm.Issue, *scm.Response, error) {
+	return nil, nil, scm.ErrNotSupported
 	path := fmt.Sprintf("repos/%s/issues", repo)
 	in := &issueInput{
 		Title: input.Title,
@@ -56,6 +61,7 @@ func (s *issueService) Create(ctx context.Context, repo string, input *scm.Issue
 }
 
 func (s *issueService) CreateComment(ctx context.Context, repo string, number int, input *scm.CommentInput) (*scm.Comment, *scm.Response, error) {
+	return nil, nil, scm.ErrNotSupported
 	path := fmt.Sprintf("repos/%s/issues/%d/comments", repo, number)
 	in := &issueCommentInput{
 		Body: input.Body,
@@ -66,11 +72,13 @@ func (s *issueService) CreateComment(ctx context.Context, repo string, number in
 }
 
 func (s *issueService) DeleteComment(ctx context.Context, repo string, number, id int) (*scm.Response, error) {
+	return nil, scm.ErrNotSupported
 	path := fmt.Sprintf("repos/%s/issues/comments/%d", repo, id)
 	return s.client.do(ctx, "DELETE", path, nil, nil)
 }
 
 func (s *issueService) Close(ctx context.Context, repo string, number int) (*scm.Response, error) {
+	return nil, scm.ErrNotSupported
 	path := fmt.Sprintf("repos/%s/issues/%d", repo, number)
 	data := map[string]string{"state": "closed"}
 	out := new(issue)
@@ -79,12 +87,14 @@ func (s *issueService) Close(ctx context.Context, repo string, number int) (*scm
 }
 
 func (s *issueService) Lock(ctx context.Context, repo string, number int) (*scm.Response, error) {
+	return nil, scm.ErrNotSupported
 	path := fmt.Sprintf("repos/%s/issues/%d/lock", repo, number)
 	res, err := s.client.do(ctx, "PUT", path, nil, nil)
 	return res, err
 }
 
 func (s *issueService) Unlock(ctx context.Context, repo string, number int) (*scm.Response, error) {
+	return nil, scm.ErrNotSupported
 	path := fmt.Sprintf("repos/%s/issues/%d/lock", repo, number)
 	res, err := s.client.do(ctx, "DELETE", path, nil, nil)
 	return res, err

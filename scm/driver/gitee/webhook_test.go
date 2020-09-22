@@ -189,9 +189,9 @@ func TestWebhooks(t *testing.T) {
 
 		buf := bytes.NewBuffer(before)
 		r, _ := http.NewRequest("GET", "/", buf)
-		r.Header.Set("X-GitHub-Event", test.event)
+		r.Header.Set("X-Gitee-Event", test.event)
 		r.Header.Set("X-Hub-Signature", "sha1=380f462cd2e160b84765144beabdad2e930a7ec5")
-		r.Header.Set("X-GitHub-Delivery", "f2467dea-70d6-11e8-8955-3c83993e0aef")
+		r.Header.Set("X-Gitee-Delivery", "f2467dea-70d6-11e8-8955-3c83993e0aef")
 
 		s := new(webhookService)
 		o, err := s.Parse(r, secretFunc)
@@ -245,8 +245,8 @@ func TestWebhook_ErrUnknownEvent(t *testing.T) {
 func TestWebhookInvalid(t *testing.T) {
 	f, _ := ioutil.ReadFile("testdata/webhooks/push.json")
 	r, _ := http.NewRequest("GET", "/", bytes.NewBuffer(f))
-	r.Header.Set("X-GitHub-Event", "push")
-	r.Header.Set("X-GitHub-Delivery", "ee8d97b4-1479-43f1-9cac-fbbd1b80da55")
+	r.Header.Set("X-Gitee-Event", "push")
+	r.Header.Set("X-Gitee-Delivery", "ee8d97b4-1479-43f1-9cac-fbbd1b80da55")
 	r.Header.Set("X-Hub-Signature", "sha1=380f462cd2e160b84765144beabdad2e930a7ec5")
 
 	s := new(webhookService)
@@ -262,8 +262,8 @@ func TestWebhookValid(t *testing.T) {
 
 	f, _ := ioutil.ReadFile("testdata/webhooks/push.json")
 	r, _ := http.NewRequest("GET", "/", bytes.NewBuffer(f))
-	r.Header.Set("X-GitHub-Event", "push")
-	r.Header.Set("X-GitHub-Delivery", "ee8d97b4-1479-43f1-9cac-fbbd1b80da55")
+	r.Header.Set("X-Gitee-Event", "push")
+	r.Header.Set("X-Gitee-Delivery", "ee8d97b4-1479-43f1-9cac-fbbd1b80da55")
 	r.Header.Set("X-Hub-Signature", "sha1=cf93f9ba3c8d3a789e61f91e1e5c6a360d036e98")
 
 	s := new(webhookService)

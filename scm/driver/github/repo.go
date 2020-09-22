@@ -10,7 +10,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/drone/go-scm/scm"
 )
 
@@ -78,7 +77,6 @@ func (s *RepositoryService) FindPerms(ctx context.Context, repo string) (*scm.Pe
 	path := fmt.Sprintf("repos/%s", repo)
 	out := new(repository)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
-	spew.Dump(path)
 	return convertRepository(out).Perm, res, err
 }
 
@@ -124,7 +122,6 @@ func (s *RepositoryService) CreateHook(ctx context.Context, repo string, input *
 	)
 	out := new(hook)
 	res, err := s.client.do(ctx, "POST", path, in, out)
-	spew.Dump(path, in)
 	return convertHook(out), res, err
 }
 
