@@ -17,6 +17,7 @@ type gitService struct {
 }
 
 func (s *gitService) FindBranch(ctx context.Context, repo, name string) (*scm.Reference, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/branches/%s", repo, name)
 	out := new(branch)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
@@ -24,6 +25,7 @@ func (s *gitService) FindBranch(ctx context.Context, repo, name string) (*scm.Re
 }
 
 func (s *gitService) FindCommit(ctx context.Context, repo, ref string) (*scm.Commit, *scm.Response, error) {
+	// pass, but soome resp attr committer always is null
 	path := fmt.Sprintf("repos/%s/commits/%s", repo, ref)
 	out := new(commit)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
@@ -35,6 +37,7 @@ func (s *gitService) FindTag(ctx context.Context, repo, name string) (*scm.Refer
 }
 
 func (s *gitService) ListBranches(ctx context.Context, repo string, opts scm.ListOptions) ([]*scm.Reference, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/branches?%s", repo, encodeListOptions(opts))
 	out := []*branch{}
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -42,6 +45,7 @@ func (s *gitService) ListBranches(ctx context.Context, repo string, opts scm.Lis
 }
 
 func (s *gitService) ListCommits(ctx context.Context, repo string, opts scm.CommitListOptions) ([]*scm.Commit, *scm.Response, error) {
+	// pass, but soome resp attr committer always is null
 	path := fmt.Sprintf("repos/%s/commits?%s", repo, encodeCommitListOptions(opts))
 	out := []*commit{}
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -49,6 +53,7 @@ func (s *gitService) ListCommits(ctx context.Context, repo string, opts scm.Comm
 }
 
 func (s *gitService) ListTags(ctx context.Context, repo string, opts scm.ListOptions) ([]*scm.Reference, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/tags?%s", repo, encodeListOptions(opts))
 	out := []*branch{}
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -56,6 +61,7 @@ func (s *gitService) ListTags(ctx context.Context, repo string, opts scm.ListOpt
 }
 
 func (s *gitService) ListChanges(ctx context.Context, repo, ref string, _ scm.ListOptions) ([]*scm.Change, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/commits/%s", repo, ref)
 	out := new(commit)
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -63,6 +69,7 @@ func (s *gitService) ListChanges(ctx context.Context, repo, ref string, _ scm.Li
 }
 
 func (s *gitService) CompareChanges(ctx context.Context, repo, source, target string, _ scm.ListOptions) ([]*scm.Change, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/compare/%s...%s", repo, source, target)
 	out := new(compare)
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -76,9 +83,10 @@ type branch struct {
 }
 
 type commit struct {
-	Sha    string `json:"sha"`
-	URL    string `json:"html_url"`
-	Commit struct {
+	Sha     string `json:"sha"`
+	URL     string `json:"url"`      // gitee use `url`, not `html_url`
+	HTMLURL string `json:"html_url"` // gitee use `url`, not `html_url`
+	Commit  struct {
 		Author struct {
 			Name  string    `json:"name"`
 			Email string    `json:"email"`
@@ -98,7 +106,7 @@ type commit struct {
 	Committer struct {
 		AvatarURL string `json:"avatar_url"`
 		Login     string `json:"login"`
-	} `json:"committer"`
+	} `json:"committer"` // Committer always reutrn null, maybe this is not effect program run
 	Files []*file `json:"files"`
 }
 
@@ -118,7 +126,7 @@ func convertCommit(from *commit) *scm.Commit {
 	return &scm.Commit{
 		Message: from.Commit.Message,
 		Sha:     from.Sha,
-		Link:    from.URL,
+		Link:    from.HTMLURL,
 		Author: scm.Signature{
 			Name:   from.Commit.Author.Name,
 			Email:  from.Commit.Author.Email,

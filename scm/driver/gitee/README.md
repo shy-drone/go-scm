@@ -1,16 +1,18 @@
-## Todos
+## File Check
 
-- [x] user
-- [ ] repo
-  - [ ] commit(status)
-  - [x] hook
-- [ ] reviews
-- [ ] content
-- [x] git
-- [x] linker
-- [x] org
-- [ ] hook
-  - [ ] pull_request event not work
+- [x] content.go
+- [x] git.go
+- [x] gitee.go but ratelimit not check
+- [ ] issue.go
+- [ ] issue.go
+- [ ] linker.go
+- [ ] org.go
+- [ ] pr.go
+- [ ] repo.go
+- [ ] review.go
+- [ ] user.go
+- [ ] util.go
+- [ ] webhook.go
 
 ## Known Bug
 
