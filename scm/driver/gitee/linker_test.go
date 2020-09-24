@@ -20,20 +20,20 @@ func TestLink(t *testing.T) {
 		{
 			path: "refs/heads/master",
 			sha:  "a7389057b0eb027e73b32a81e3c5923a71d01dde",
-			want: "https://github.com/octocat/hello-world/commit/a7389057b0eb027e73b32a81e3c5923a71d01dde",
+			want: "https://gitee.com/octocat/hello-world/commit/a7389057b0eb027e73b32a81e3c5923a71d01dde",
 		},
 		{
 			path: "refs/pull/42/head",
 			sha:  "a7389057b0eb027e73b32a81e3c5923a71d01dde",
-			want: "https://github.com/octocat/hello-world/pull/42",
+			want: "https://gitee.com/octocat/hello-world/pull/42",
 		},
 		{
 			path: "refs/tags/v1.0.0",
-			want: "https://github.com/octocat/hello-world/tree/v1.0.0",
+			want: "https://gitee.com/octocat/hello-world/tree/v1.0.0",
 		},
 		{
 			path: "refs/heads/master",
-			want: "https://github.com/octocat/hello-world/tree/master",
+			want: "https://gitee.com/octocat/hello-world/tree/master",
 		},
 	}
 
@@ -64,21 +64,21 @@ func TestDiff(t *testing.T) {
 		{
 			source: scm.Reference{Sha: "a7389057b0eb027e73b32a81e3c5923a71d01dde"},
 			target: scm.Reference{Sha: "49bbaf4a113bbebfa21cf604cad9aa1503c3f04d"},
-			want:   "https://github.com/octocat/hello-world/compare/a7389057b0eb027e73b32a81e3c5923a71d01dde...49bbaf4a113bbebfa21cf604cad9aa1503c3f04d",
+			want:   "https://gitee.com/octocat/hello-world/compare/a7389057b0eb027e73b32a81e3c5923a71d01dde...49bbaf4a113bbebfa21cf604cad9aa1503c3f04d",
 		},
 		{
 			source: scm.Reference{Path: "refs/heads/master"},
 			target: scm.Reference{Sha: "49bbaf4a113bbebfa21cf604cad9aa1503c3f04d"},
-			want:   "https://github.com/octocat/hello-world/compare/master...49bbaf4a113bbebfa21cf604cad9aa1503c3f04d",
+			want:   "https://gitee.com/octocat/hello-world/compare/master...49bbaf4a113bbebfa21cf604cad9aa1503c3f04d",
 		},
 		{
 			source: scm.Reference{Sha: "a7389057b0eb027e73b32a81e3c5923a71d01dde"},
 			target: scm.Reference{Path: "refs/heads/master"},
-			want:   "https://github.com/octocat/hello-world/compare/a7389057b0eb027e73b32a81e3c5923a71d01dde...master",
+			want:   "https://gitee.com/octocat/hello-world/compare/a7389057b0eb027e73b32a81e3c5923a71d01dde...master",
 		},
 		{
 			target: scm.Reference{Path: "refs/pull/12/head"},
-			want:   "https://github.com/octocat/hello-world/pull/12/files",
+			want:   "https://gitee.com/octocat/hello-world/pull/12/files",
 		},
 	}
 
@@ -114,7 +114,7 @@ func TestLink_GitHub_Enterprise(t *testing.T) {
 }
 
 func TestLinkBase(t *testing.T) {
-	if got, want := NewDefault().Linker.(*linker).base, "https://github.com/"; got != want {
+	if got, want := NewDefault().Linker.(*linker).base, "https://gitee.com/"; got != want {
 		t.Errorf("Want url %s, got %s", want, got)
 	}
 

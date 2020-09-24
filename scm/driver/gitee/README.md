@@ -9,6 +9,7 @@
 - [x] issue.go
   - [x] test pass
 - [x] linker.go
+  - [x] test pass
 - [x] org.go
 - [x] pr.go
 - [x] repo.go
