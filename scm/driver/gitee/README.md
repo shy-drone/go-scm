@@ -8,7 +8,7 @@
 - [x] org.go
 - [x] pr.go
 - [x] repo.go
-- [ ] review.go
+- [x] review.go
 - [ ] user.go
 - [ ] util.go
 - [ ] webhook.go

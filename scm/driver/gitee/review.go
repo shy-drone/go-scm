@@ -17,6 +17,7 @@ type reviewService struct {
 }
 
 func (s *reviewService) Find(ctx context.Context, repo string, number, id int) (*scm.Review, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/pulls/comments/%d", repo, id)
 	out := new(review)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
@@ -24,6 +25,7 @@ func (s *reviewService) Find(ctx context.Context, repo string, number, id int) (
 }
 
 func (s *reviewService) List(ctx context.Context, repo string, number int, opts scm.ListOptions) ([]*scm.Review, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/pulls/%d/comments?%s", repo, number, encodeListOptions(opts))
 	out := []*review{}
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -31,6 +33,7 @@ func (s *reviewService) List(ctx context.Context, repo string, number int, opts 
 }
 
 func (s *reviewService) Create(ctx context.Context, repo string, number int, input *scm.ReviewInput) (*scm.Review, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/pulls/%d/comments", repo, number)
 	in := &reviewInput{
 		Body:     input.Body,
@@ -44,6 +47,7 @@ func (s *reviewService) Create(ctx context.Context, repo string, number int, inp
 }
 
 func (s *reviewService) Delete(ctx context.Context, repo string, number, id int) (*scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/pulls/comments/%d", repo, id)
 	return s.client.do(ctx, "DELETE", path, nil, nil)
 }
