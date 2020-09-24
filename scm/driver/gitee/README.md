@@ -10,7 +10,6 @@
 - [x] repo.go
 - [x] review.go
 - [x] user.go
-- [ ] util.go
 - [ ] webhook.go
 
 ## Known Bug
