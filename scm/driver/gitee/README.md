@@ -1,6 +1,7 @@
 ## File Check
 
 - [x] content.go
+    - [x] test pass
 - [x] git.go
 - [x] gitee.go but ratelimit not check
 - [x] issue.go
