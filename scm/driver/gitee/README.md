@@ -5,6 +5,7 @@
 - [x] git.go
   - [x] test pass
 - [x] gitee.go but ratelimit not check
+  - [x] test pass
 - [x] issue.go
 - [x] linker.go
 - [x] org.go

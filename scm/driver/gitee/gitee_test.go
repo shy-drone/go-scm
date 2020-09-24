@@ -19,10 +19,10 @@ var mockHeaders = map[string]string{
 }
 
 var mockPageHeaders = map[string]string{
-	"Link": `<https://gitee.com/api/v5//resource?page=2>; rel="next",` +
-		`<https://gitee.com/api/v5//resource?page=1>; rel="prev",` +
-		`<https://gitee.com/api/v5//resource?page=1>; rel="first",` +
-		`<https://gitee.com/api/v5//resource?page=5>; rel="last"`,
+	"Link": `<https://gitee.com/api/v5/resource?page=2>; rel="next",` +
+		`<https://gitee.com/api/v5/resource?page=1>; rel="prev",` +
+		`<https://gitee.com/api/v5/resource?page=1>; rel="first",` +
+		`<https://gitee.com/api/v5/resource?page=5>; rel="last"`,
 }
 
 func TestClient(t *testing.T) {
@@ -30,7 +30,7 @@ func TestClient(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if got, want := client.BaseURL.String(), "https://gitee.com/api/v5//"; got != want {
+	if got, want := client.BaseURL.String(), "https://gitee.com/api/v5/"; got != want {
 		t.Errorf("Want Client URL %q, got %q", want, got)
 	}
 }
@@ -47,7 +47,7 @@ func TestClient_Base(t *testing.T) {
 
 func TestClient_Default(t *testing.T) {
 	client := NewDefault()
-	if got, want := client.BaseURL.String(), "https://gitee.com/api/v5//"; got != want {
+	if got, want := client.BaseURL.String(), "https://gitee.com/api/v5/"; got != want {
 		t.Errorf("Want Client URL %q, got %q", want, got)
 	}
 }
@@ -103,8 +103,8 @@ func TestWebsiteAddress(t *testing.T) {
 		api string
 		web string
 	}{
-		{"https://gitee.com/api/v5//", "https://github.com/"},
-		{"https://gitee.com/api/v5/", "https://github.com/"},
+		{"https://gitee.com/api/v5/", "https://gitee.com/"},
+		{"https://gitee.com/api/v5/", "https://gitee.com/"},
 		{"https://github.acme.com/api/v3", "https://github.acme.com/"},
 		{"https://github.acme.com/api/v3/", "https://github.acme.com/"},
 	}
