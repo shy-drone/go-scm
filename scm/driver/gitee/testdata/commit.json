@@ -1,38 +1,30 @@
 {
+  "url": "https://gitee.com/api/v5//repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
   "sha": "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+  "html_url": "https://github.com/octocat/Hello-World/commit/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+  "comments_url": "https://gitee.com/api/v5//repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d/comments",
   "commit": {
     "author": {
       "name": "The Octocat",
-      "email": "octocat@nowhere.com",
-      "date": "2012-03-06T23:06:50Z"
+      "date": "2012-03-06T23:06:50Z",
+      "email": "octocat@nowhere.com"
     },
     "committer": {
       "name": "The Octocat",
-      "email": "octocat@nowhere.com",
-      "date": "2012-03-06T23:06:50Z"
+      "date": "2012-03-06T23:06:50Z",
+      "email": "octocat@nowhere.com"
     },
     "message": "Merge pull request #6 from Spaceghost/patch-1\n\nNew line at end of file.",
     "tree": {
       "sha": "b4eecafa9be2f2006ce1b709d6857b07069b4608",
       "url": "https://gitee.com/api/v5//repos/octocat/Hello-World/git/trees/b4eecafa9be2f2006ce1b709d6857b07069b4608"
-    },
-    "url": "https://gitee.com/api/v5//repos/octocat/Hello-World/git/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
-    "comment_count": 51,
-    "verification": {
-      "verified": false,
-      "reason": "unsigned",
-      "signature": null,
-      "payload": null
     }
   },
-  "url": "https://gitee.com/api/v5//repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
-  "html_url": "https://github.com/octocat/Hello-World/commit/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
-  "comments_url": "https://gitee.com/api/v5//repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d/comments",
   "author": {
-    "login": "octocat",
     "id": 583231,
+    "login": "octocat",
+    "name": "octocat",
     "avatar_url": "https://avatars3.githubusercontent.com/u/583231?v=4",
-    "gravatar_id": "",
     "url": "https://gitee.com/api/v5//users/octocat",
     "html_url": "https://github.com/octocat",
     "followers_url": "https://gitee.com/api/v5//users/octocat/followers",
@@ -44,14 +36,13 @@
     "repos_url": "https://gitee.com/api/v5//users/octocat/repos",
     "events_url": "https://gitee.com/api/v5//users/octocat/events{/privacy}",
     "received_events_url": "https://gitee.com/api/v5//users/octocat/received_events",
-    "type": "User",
-    "site_admin": false
+    "type": "User"
   },
   "committer": {
-    "login": "octocat",
     "id": 583231,
+    "login": "octocat",
+    "name": "octocat",
     "avatar_url": "https://avatars3.githubusercontent.com/u/583231?v=4",
-    "gravatar_id": "",
     "url": "https://gitee.com/api/v5//users/octocat",
     "html_url": "https://github.com/octocat",
     "followers_url": "https://gitee.com/api/v5//users/octocat/followers",
@@ -63,22 +54,20 @@
     "repos_url": "https://gitee.com/api/v5//users/octocat/repos",
     "events_url": "https://gitee.com/api/v5//users/octocat/events{/privacy}",
     "received_events_url": "https://gitee.com/api/v5//users/octocat/received_events",
-    "type": "User",
-    "site_admin": false
+    "type": "User"
   },
   "parents": [
     {
       "sha": "553c2077f0edc3d5dc5d17262f6aa498e69d6f8e",
-      "url": "https://gitee.com/api/v5//repos/octocat/Hello-World/commits/553c2077f0edc3d5dc5d17262f6aa498e69d6f8e",
-      "html_url": "https://github.com/octocat/Hello-World/commit/553c2077f0edc3d5dc5d17262f6aa498e69d6f8e"
+      "url": "https://gitee.com/api/v5//repos/octocat/Hello-World/commits/553c2077f0edc3d5dc5d17262f6aa498e69d6f8e"
     },
     {
       "sha": "762941318ee16e59dabbacb1b4049eec22f0d303",
-      "url": "https://gitee.com/api/v5//repos/octocat/Hello-World/commits/762941318ee16e59dabbacb1b4049eec22f0d303",
-      "html_url": "https://github.com/octocat/Hello-World/commit/762941318ee16e59dabbacb1b4049eec22f0d303"
+      "url": "https://gitee.com/api/v5//repos/octocat/Hello-World/commits/762941318ee16e59dabbacb1b4049eec22f0d303"
     }
   ],
   "stats": {
+    "id": "0c92f7a0f565b56941f9086b29b5b989f57d9877",
     "total": 2,
     "additions": 1,
     "deletions": 1

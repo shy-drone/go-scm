@@ -2,6 +2,7 @@
     "name": "master",
     "commit": {
         "sha": "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+        "url": "https://gitee.com/api/v5//repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
         "commit": {
             "author": {
                 "name": "The Octocat",
@@ -18,16 +19,9 @@
                 "name": "The Octocat",
                 "date": "2012-03-06T15:06:50-08:00",
                 "email": "octocat@nowhere.com"
-            },
-            "verification": {
-                "verified": false,
-                "reason": "unsigned",
-                "signature": null,
-                "payload": null
             }
         },
         "author": {
-            "gravatar_id": "",
             "avatar_url": "https://secure.gravatar.com/avatar/7ad39074b0584bc555d0417ae3e7d974?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png",
             "url": "https://gitee.com/api/v5//users/octocat",
             "id": 583231,
@@ -43,9 +37,7 @@
                 "url": "https://gitee.com/api/v5//repos/octocat/Hello-World/commits/762941318ee16e59dabbacb1b4049eec22f0d303"
             }
         ],
-        "url": "https://gitee.com/api/v5//repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
         "committer": {
-            "gravatar_id": "",
             "avatar_url": "https://secure.gravatar.com/avatar/7ad39074b0584bc555d0417ae3e7d974?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png",
             "url": "https://gitee.com/api/v5//users/octocat",
             "id": 583231,

@@ -1,8 +1,9 @@
 ## File Check
 
 - [x] content.go
-    - [x] test pass
+  - [x] test pass
 - [x] git.go
+  - [x] test pass
 - [x] gitee.go but ratelimit not check
 - [x] issue.go
 - [x] linker.go
@@ -16,4 +17,3 @@
 ## Known Bug
 
 `pr` and `tag` is still not trigger ci/cd
-
