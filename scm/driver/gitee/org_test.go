@@ -50,7 +50,7 @@ func TestOrganizationFindMembership(t *testing.T) {
 	defer gock.Off()
 
 	gock.New("https://gitee.com/api/v5/").
-		Get("/orgs/github/memberships/octocat").
+		Get("user/memberships/org/github").
 		Reply(200).
 		Type("application/json").
 		SetHeaders(mockHeaders).

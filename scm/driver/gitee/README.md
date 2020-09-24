@@ -11,6 +11,7 @@
 - [x] linker.go
   - [x] test pass
 - [x] org.go
+  - [x] test pass
 - [x] pr.go
 - [x] repo.go
 - [x] review.go
