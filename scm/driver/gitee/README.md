@@ -6,7 +6,7 @@
 - [x] issue.go
 - [x] linker.go
 - [x] org.go
-- [ ] pr.go
+- [x] pr.go
 - [ ] repo.go
 - [ ] review.go
 - [ ] user.go

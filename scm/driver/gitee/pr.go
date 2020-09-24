@@ -18,6 +18,7 @@ type pullService struct {
 }
 
 func (s *pullService) Find(ctx context.Context, repo string, number int) (*scm.PullRequest, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/pulls/%d", repo, number)
 	out := new(pr)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
@@ -25,6 +26,7 @@ func (s *pullService) Find(ctx context.Context, repo string, number int) (*scm.P
 }
 
 func (s *pullService) List(ctx context.Context, repo string, opts scm.PullRequestListOptions) ([]*scm.PullRequest, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/pulls?%s", repo, encodePullRequestListOptions(opts))
 	out := []*pr{}
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -32,6 +34,7 @@ func (s *pullService) List(ctx context.Context, repo string, opts scm.PullReques
 }
 
 func (s *pullService) ListChanges(ctx context.Context, repo string, number int, opts scm.ListOptions) ([]*scm.Change, *scm.Response, error) {
+	// pass, but don't support page
 	path := fmt.Sprintf("repos/%s/pulls/%d/files?%s", repo, number, encodeListOptions(opts))
 	out := []*file{}
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -39,12 +42,14 @@ func (s *pullService) ListChanges(ctx context.Context, repo string, number int, 
 }
 
 func (s *pullService) Merge(ctx context.Context, repo string, number int) (*scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/pulls/%d/merge", repo, number)
 	res, err := s.client.do(ctx, "PUT", path, nil, nil)
 	return res, err
 }
 
 func (s *pullService) Close(ctx context.Context, repo string, number int) (*scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/pulls/%d", repo, number)
 	data := map[string]string{"state": "closed"}
 	res, err := s.client.do(ctx, "PATCH", path, &data, nil)
@@ -52,6 +57,7 @@ func (s *pullService) Close(ctx context.Context, repo string, number int) (*scm.
 }
 
 func (s *pullService) Create(ctx context.Context, repo string, input *scm.PullRequestInput) (*scm.PullRequest, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/pulls", repo)
 	in := &prInput{
 		Title: input.Title,
