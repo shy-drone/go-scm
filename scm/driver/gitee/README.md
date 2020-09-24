@@ -7,6 +7,7 @@
 - [x] gitee.go but ratelimit not check
   - [x] test pass
 - [x] issue.go
+  - [x] test pass
 - [x] linker.go
 - [x] org.go
 - [x] pr.go
