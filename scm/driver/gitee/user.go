@@ -18,12 +18,14 @@ type userService struct {
 }
 
 func (s *userService) Find(ctx context.Context) (*scm.User, *scm.Response, error) {
+	// pass
 	out := new(user)
 	res, err := s.client.do(ctx, "GET", "user", nil, out)
 	return convertUser(out), res, err
 }
 
 func (s *userService) FindLogin(ctx context.Context, login string) (*scm.User, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("users/%s", login)
 	out := new(user)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
@@ -31,6 +33,7 @@ func (s *userService) FindLogin(ctx context.Context, login string) (*scm.User, *
 }
 
 func (s *userService) FindEmail(ctx context.Context) (string, *scm.Response, error) {
+	// pass
 	user, res, err := s.Find(ctx)
 	return user.Email, res, err
 }

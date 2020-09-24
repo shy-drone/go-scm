@@ -9,7 +9,7 @@
 - [x] pr.go
 - [x] repo.go
 - [x] review.go
-- [ ] user.go
+- [x] user.go
 - [ ] util.go
 - [ ] webhook.go
 
