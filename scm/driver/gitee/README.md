@@ -7,7 +7,7 @@
 - [x] linker.go
 - [x] org.go
 - [x] pr.go
-- [ ] repo.go
+- [x] repo.go
 - [ ] review.go
 - [ ] user.go
 - [ ] util.go

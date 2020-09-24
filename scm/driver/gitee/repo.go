@@ -39,7 +39,7 @@ type repository struct {
 
 type hook struct {
 	ID                 int    `json:"id,omitempty"`
-	Name               string `json:"name"`
+	Name               string `json:"name"` // no name
 	URL                string `json:"url"`
 	Secret             string `json:"password"`
 	PushEvents         bool   `json:"push_events"`
@@ -57,6 +57,7 @@ type RepositoryService struct {
 
 // Find returns the repository by name.
 func (s *RepositoryService) Find(ctx context.Context, repo string) (*scm.Repository, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s", repo)
 	out := new(repository)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
@@ -65,6 +66,7 @@ func (s *RepositoryService) Find(ctx context.Context, repo string) (*scm.Reposit
 
 // FindHook returns a repository hook.
 func (s *RepositoryService) FindHook(ctx context.Context, repo string, id string) (*scm.Hook, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/hooks/%s", repo, id)
 	out := new(hook)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
@@ -73,6 +75,7 @@ func (s *RepositoryService) FindHook(ctx context.Context, repo string, id string
 
 // FindPerms returns the repository permissions.
 func (s *RepositoryService) FindPerms(ctx context.Context, repo string) (*scm.Perm, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s", repo)
 	out := new(repository)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
@@ -81,6 +84,7 @@ func (s *RepositoryService) FindPerms(ctx context.Context, repo string) (*scm.Pe
 
 // List returns the user repository list.
 func (s *RepositoryService) List(ctx context.Context, opts scm.ListOptions) ([]*scm.Repository, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("user/repos?%s", encodeListOptions(opts))
 	out := []*repository{}
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -89,6 +93,7 @@ func (s *RepositoryService) List(ctx context.Context, opts scm.ListOptions) ([]*
 
 // ListHooks returns a list or repository hooks.
 func (s *RepositoryService) ListHooks(ctx context.Context, repo string, opts scm.ListOptions) ([]*scm.Hook, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/hooks?%s", repo, encodeListOptions(opts))
 	out := []*hook{}
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -136,6 +141,7 @@ func (s *RepositoryService) CreateHook(ctx context.Context, repo string, input *
 
 // CreateStatus creates a new commit status.
 func (s *RepositoryService) CreateStatus(ctx context.Context, repo, ref string, input *scm.StatusInput) (*scm.Status, *scm.Response, error) {
+	return nil, nil, scm.ErrNotSupported
 	path := fmt.Sprintf("repos/%s/statuses/%s", repo, ref)
 	in := &status{
 		State:       convertFromState(input.State),
@@ -150,6 +156,7 @@ func (s *RepositoryService) CreateStatus(ctx context.Context, repo, ref string, 
 
 // UpdateHook updates a repository webhook.
 func (s *RepositoryService) UpdateHook(ctx context.Context, repo, id string, input *scm.HookInput) (*scm.Hook, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/hooks/%s", repo, id)
 	in := new(hook)
 	in.Secret = input.Secret
@@ -180,6 +187,7 @@ func (s *RepositoryService) UpdateHook(ctx context.Context, repo, id string, inp
 
 // DeleteHook deletes a repository webhook.
 func (s *RepositoryService) DeleteHook(ctx context.Context, repo, id string) (*scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("repos/%s/hooks/%s", repo, id)
 	return s.client.do(ctx, "DELETE", path, nil, nil)
 }
@@ -209,7 +217,7 @@ func convertRepository(from *repository) *scm.Repository {
 		Link:     from.HTMLURL,
 		Branch:   from.DefaultBranch,
 		Private:  from.Private,
-		Clone:    from.HTMLURL, // gitee no clone url, only html url
+		Clone:    from.HTMLURL, // gitee doesn't provide clone url in find repo, only html url
 		CloneSSH: from.SSHURL,
 		Created:  from.CreatedAt,
 		Updated:  from.UpdatedAt,
