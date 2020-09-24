@@ -13,10 +13,15 @@
 - [x] org.go
   - [x] test pass
 - [x] pr.go
+  - [x] test pass, but no check
 - [x] repo.go
+  - [x] test pass
 - [x] review.go
+  - [x] test pass, but no check
 - [x] user.go
+  - [x] test pass, but no check
 - [ ] webhook.go
+  - [ ] test pass
 
 ## Known Bug
 
