@@ -5,7 +5,7 @@
 - [x] gitee.go but ratelimit not check
 - [x] issue.go
 - [x] linker.go
-- [ ] org.go
+- [x] org.go
 - [ ] pr.go
 - [ ] repo.go
 - [ ] review.go

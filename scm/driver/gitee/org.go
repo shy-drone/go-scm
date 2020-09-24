@@ -16,6 +16,7 @@ type organizationService struct {
 }
 
 func (s *organizationService) Find(ctx context.Context, name string) (*scm.Organization, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("orgs/%s", name)
 	out := new(organization)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
@@ -23,14 +24,15 @@ func (s *organizationService) Find(ctx context.Context, name string) (*scm.Organ
 }
 
 func (s *organizationService) FindMembership(ctx context.Context, name, username string) (*scm.Membership, *scm.Response, error) {
-	return nil, nil, scm.ErrNotSupported
-	path := fmt.Sprintf("orgs/%s/memberships/%s", name, username)
+	// pass
+	path := fmt.Sprintf("user/memberships/org/%s", name)
 	out := new(membership)
 	res, err := s.client.do(ctx, "GET", path, nil, out)
 	return convertMembership(out), res, err
 }
 
 func (s *organizationService) List(ctx context.Context, opts scm.ListOptions) ([]*scm.Organization, *scm.Response, error) {
+	// pass
 	path := fmt.Sprintf("user/orgs?%s", encodeListOptions(opts))
 	out := []*organization{}
 	res, err := s.client.do(ctx, "GET", path, nil, &out)
@@ -51,8 +53,8 @@ type organization struct {
 }
 
 type membership struct {
-	State string `json:"state"`
-	Role  string `json:"role"`
+	Active bool   `json:"active"`
+	Role   string `json:"role"`
 }
 
 func convertOrganization(from *organization) *scm.Organization {
@@ -64,8 +66,7 @@ func convertOrganization(from *organization) *scm.Organization {
 
 func convertMembership(from *membership) *scm.Membership {
 	to := new(scm.Membership)
-	switch from.State {
-	case "active":
+	if from.Active {
 		to.Active = true
 	}
 	switch from.Role {
