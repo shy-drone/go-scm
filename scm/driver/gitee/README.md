@@ -3,9 +3,8 @@
 - [x] content.go
 - [x] git.go
 - [x] gitee.go but ratelimit not check
-- [ ] issue.go
-- [ ] issue.go
-- [ ] linker.go
+- [x] issue.go
+- [x] linker.go
 - [ ] org.go
 - [ ] pr.go
 - [ ] repo.go
