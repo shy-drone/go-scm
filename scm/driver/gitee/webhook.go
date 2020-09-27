@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"regexp"
+	"strings"
 
 	"github.com/drone/go-scm/scm"
 	"github.com/drone/go-scm/scm/driver/internal/null"
@@ -34,14 +35,9 @@ func (s *webhookService) Parse(req *http.Request, fn scm.SecretFunc) (scm.Webhoo
 	case "Push Hook": // commit push, branch push
 		hook, err = s.parsePushHook(data)
 	case "Tag Push Hook":
-		hook, err = s.parseCreateHook(data)
+		hook, err = s.parseTagHook(data)
 	case "Merge Request Hook":
 		hook, err = s.parsePullRequestHook(data)
-	// case "deployment":
-	// 	hook, err = s.parseDeploymentHook(data)
-	// case "pull_request_review_comment":
-	// case "issues":
-	// case "issue_comment":
 	default:
 		return nil, scm.ErrUnknownEvent
 	}
@@ -69,34 +65,21 @@ func (s *webhookService) Parse(req *http.Request, fn scm.SecretFunc) (scm.Webhoo
 func (s *webhookService) parsePushHook(data []byte) (scm.Webhook, error) {
 	dst := new(pushHook)
 	err := json.Unmarshal(data, dst)
-	return convertPushHook(dst), err
-}
-
-func (s *webhookService) parseCreateHook(data []byte) (scm.Webhook, error) {
-	src := new(createDeleteHook)
-	err := json.Unmarshal(data, src)
 	if err != nil {
 		return nil, err
 	}
-	dst := convertTagHook(src)
-	dst.Action = scm.ActionCreate
-	return dst, nil
+	if dst.Created || dst.Deleted {
+		return convertBranchHook(dst), nil
+	}
+	return convertPushHook(dst), nil
 }
-
-func (s *webhookService) parseDeleteHook(data []byte) (scm.Webhook, error) {
-	src := new(createDeleteHook)
-	err := json.Unmarshal(data, src)
+func (s *webhookService) parseTagHook(data []byte) (scm.Webhook, error) {
+	dst := new(pushHook)
+	err := json.Unmarshal(data, dst)
 	if err != nil {
 		return nil, err
 	}
-	if src.RefType == "branch" {
-		dst := convertBranchHook(src)
-		dst.Action = scm.ActionDelete
-		return dst, nil
-	}
-	dst := convertTagHook(src)
-	dst.Action = scm.ActionDelete
-	return dst, nil
+	return convertTagHook(dst), nil
 }
 
 func (s *webhookService) parsePullRequestHook(data []byte) (scm.Webhook, error) {
@@ -138,6 +121,8 @@ type (
 		BaseRef string `json:"base_ref"`
 		Before  string `json:"before"`
 		After   string `json:"after"`
+		Created bool   `json:"created"`
+		Deleted bool   `json:"deleted"`
 		Compare string `json:"compare"`
 		Head    struct {
 			ID        string    `json:"id"`
@@ -222,13 +207,13 @@ func convertPushHook(src *pushHook) *scm.PushHook {
 				Message: c.Message,
 				Link:    c.URL,
 				Author: scm.Signature{
-					Login: c.Author.Username,
+					Login: c.Author.Name,
 					Email: c.Author.Email,
 					Name:  c.Author.Name,
 					Date:  c.Timestamp.ValueOrZero(),
 				},
 				Committer: scm.Signature{
-					Login: c.Committer.Username,
+					Login: c.Committer.Name,
 					Email: c.Committer.Email,
 					Name:  c.Committer.Name,
 					Date:  c.Timestamp.ValueOrZero(),
@@ -245,13 +230,13 @@ func convertPushHook(src *pushHook) *scm.PushHook {
 			Message: src.Head.Message,
 			Link:    src.Compare,
 			Author: scm.Signature{
-				Login: src.Head.Author.Username,
+				Login: src.Head.Author.Name,
 				Email: src.Head.Author.Email,
 				Name:  src.Head.Author.Name,
 				Date:  src.Head.Timestamp.ValueOrZero(),
 			},
 			Committer: scm.Signature{
-				Login: src.Head.Committer.Username,
+				Login: src.Head.Committer.Name,
 				Email: src.Head.Committer.Email,
 				Name:  src.Head.Committer.Name,
 				Date:  src.Head.Timestamp.ValueOrZero(),
@@ -278,10 +263,17 @@ func convertPushHook(src *pushHook) *scm.PushHook {
 	return dst
 }
 
-func convertBranchHook(src *createDeleteHook) *scm.BranchHook {
+func convertBranchHook(src *pushHook) *scm.BranchHook {
+	var act scm.Action
+	if src.Created {
+		act = scm.ActionCreate
+	} else if src.Deleted {
+		act = scm.ActionDelete
+	}
 	return &scm.BranchHook{
+		Action: act,
 		Ref: scm.Reference{
-			Name: src.Ref,
+			Name: strings.Replace(src.Ref, "refs/heads/", "", 1),
 		},
 		Repo: scm.Repository{
 			ID:        fmt.Sprint(src.Repository.ID),
@@ -297,10 +289,17 @@ func convertBranchHook(src *createDeleteHook) *scm.BranchHook {
 	}
 }
 
-func convertTagHook(src *createDeleteHook) *scm.TagHook {
+func convertTagHook(src *pushHook) *scm.TagHook {
+	var act scm.Action
+	if src.Created {
+		act = scm.ActionCreate
+	} else if src.Deleted {
+		act = scm.ActionDelete
+	}
 	return &scm.TagHook{
+		Action: act,
 		Ref: scm.Reference{
-			Name: src.Ref,
+			Name: strings.Replace(src.Ref, "refs/tags/", "", 1),
 		},
 		Repo: scm.Repository{
 			ID:        fmt.Sprint(src.Repository.ID),

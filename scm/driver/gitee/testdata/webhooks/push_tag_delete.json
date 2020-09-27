@@ -4,8 +4,6 @@
   "after": "0000000000000000000000000000000000000000",
   "created": false,
   "deleted": true,
-  "forced": false,
-  "base_ref": null,
   "compare": "https://github.com/bradrydzewski/drone-test-go/compare/d2b75aa7797e...000000000000",
   "commits": [
 
@@ -111,25 +109,18 @@
   },
   "pusher": {
     "name": "bradrydzewski",
-    "email": "brad.rydzewski@gmail.com"
+    "email": "brad.rydzewski@gmail.com",
+    "username": "bradrydzewski"
   },
   "sender": {
-    "login": "bradrydzewski",
     "id": 817538,
-    "node_id": "MDQ6VXNlcjgxNzUzOA==",
-    "avatar_url": "https://avatars1.githubusercontent.com/u/817538?v=4",
-    "gravatar_id": "",
+    "name": "bradrydzewski",
+    "username": "bradrydzewski",
+    "user_name": "bradrydzewski",
     "url": "https://gitee.com/api/v5//users/bradrydzewski",
+    "login": "bradrydzewski",
+    "avatar_url": "https://avatars1.githubusercontent.com/u/817538?v=4",
     "html_url": "https://github.com/bradrydzewski",
-    "followers_url": "https://gitee.com/api/v5//users/bradrydzewski/followers",
-    "following_url": "https://gitee.com/api/v5//users/bradrydzewski/following{/other_user}",
-    "gists_url": "https://gitee.com/api/v5//users/bradrydzewski/gists{/gist_id}",
-    "starred_url": "https://gitee.com/api/v5//users/bradrydzewski/starred{/owner}{/repo}",
-    "subscriptions_url": "https://gitee.com/api/v5//users/bradrydzewski/subscriptions",
-    "organizations_url": "https://gitee.com/api/v5//users/bradrydzewski/orgs",
-    "repos_url": "https://gitee.com/api/v5//users/bradrydzewski/repos",
-    "events_url": "https://gitee.com/api/v5//users/bradrydzewski/events{/privacy}",
-    "received_events_url": "https://gitee.com/api/v5//users/bradrydzewski/received_events",
     "type": "User",
     "site_admin": false
   }

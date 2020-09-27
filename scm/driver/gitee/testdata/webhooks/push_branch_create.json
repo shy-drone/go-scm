@@ -4,8 +4,6 @@
   "after": "d2b75aa7797ec26b088fa2dd527e9d2c052fcedd",
   "created": true,
   "deleted": false,
-  "forced": false,
-  "base_ref": "refs/heads/master",
   "compare": "https://github.com/bradrydzewski/drone-test-go/compare/feature-branch",
   "commits": [
 
@@ -13,20 +11,21 @@
   "head_commit": {
     "id": "d2b75aa7797ec26b088fa2dd527e9d2c052fcedd",
     "tree_id": "f38d6b02c9ee18de68e5e6682721a22df4c9a29d",
-    "distinct": true,
     "message": "Update .drone.yml",
     "timestamp": "2018-06-19T19:03:12-07:00",
     "url": "https://github.com/bradrydzewski/drone-test-go/commit/d2b75aa7797ec26b088fa2dd527e9d2c052fcedd",
     "author": {
-      "name": "Brad Rydzewski",
-      "email": "brad.rydzewski@gmail.com",
-      "username": "bradrydzewski"
+      "time": "2018-06-19T19:03:12-07:00",
+      "name": "bradrydzewski",
+      "email": "brad.rydzewski@gmail.com"
     },
     "committer": {
-      "name": "GitHub",
-      "email": "noreply@github.com",
-      "username": "web-flow"
+      "name": "web-flow",
+      "email": "noreply@github.com"
     },
+
+
+    "distinct": true,
     "added": [
 
     ],
@@ -140,22 +139,14 @@
     "email": "brad.rydzewski@gmail.com"
   },
   "sender": {
-    "login": "bradrydzewski",
     "id": 817538,
-    "node_id": "MDQ6VXNlcjgxNzUzOA==",
-    "avatar_url": "https://avatars1.githubusercontent.com/u/817538?v=4",
-    "gravatar_id": "",
+    "name": "bradrydzewski",
+    "username": "bradrydzewski",
+    "user_name": "bradrydzewski",
     "url": "https://gitee.com/api/v5//users/bradrydzewski",
+    "login": "bradrydzewski",
+    "avatar_url": "https://avatars1.githubusercontent.com/u/817538?v=4",
     "html_url": "https://github.com/bradrydzewski",
-    "followers_url": "https://gitee.com/api/v5//users/bradrydzewski/followers",
-    "following_url": "https://gitee.com/api/v5//users/bradrydzewski/following{/other_user}",
-    "gists_url": "https://gitee.com/api/v5//users/bradrydzewski/gists{/gist_id}",
-    "starred_url": "https://gitee.com/api/v5//users/bradrydzewski/starred{/owner}{/repo}",
-    "subscriptions_url": "https://gitee.com/api/v5//users/bradrydzewski/subscriptions",
-    "organizations_url": "https://gitee.com/api/v5//users/bradrydzewski/orgs",
-    "repos_url": "https://gitee.com/api/v5//users/bradrydzewski/repos",
-    "events_url": "https://gitee.com/api/v5//users/bradrydzewski/events{/privacy}",
-    "received_events_url": "https://gitee.com/api/v5//users/bradrydzewski/received_events",
     "type": "User",
     "site_admin": false
   }

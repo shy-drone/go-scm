@@ -29,7 +29,7 @@
       "Name": "GitHub",
       "Email": "noreply@github.com",
       "Date": "2018-06-15T13:01:51-07:00",
-      "Login": "web-flow",
+      "Login": "GitHub",
       "Avatar": ""
     },
     "Link": "https://github.com/Codertocat/Hello-World/compare/a10867b14bb7...000000000000"
@@ -49,7 +49,7 @@
         "Name": "GitHub",
         "Email": "noreply@github.com",
         "Date": "2018-06-15T13:01:51-07:00",
-        "Login": "web-flow",
+        "Login": "GitHub",
         "Avatar": ""
       },
       "Link": "https://github.com/Codertocat/Hello-World/compare/199eddf46df50de8d02e99bf1c5fdb4101338224"
@@ -57,8 +57,8 @@
   ],
   "Sender": {
     "Login": "Codertocat",
-    "Name": "",
-    "Email": "",
+    "Name": "Codertocat",
+    "Email": "Codertocat@email.com",
     "Avatar": "https://avatars1.githubusercontent.com/u/21031067?v=4"
   }
 }

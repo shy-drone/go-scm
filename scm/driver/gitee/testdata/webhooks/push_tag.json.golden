@@ -1,6 +1,6 @@
 {
   "Ref": "refs/tags/v0.0.1",
-  "BaseRef": "refs/heads/master",
+  "BaseRef": "",
   "Before": "0000000000000000000000000000000000000000",
   "After": "d2b75aa7797ec26b088fa2dd527e9d2c052fcedd",
   "Repo": {
@@ -23,21 +23,21 @@
       "Name": "Brad Rydzewski",
       "Email": "brad.rydzewski@gmail.com",
       "Date": "2018-06-19T19:03:12-07:00",
-      "Login": "bradrydzewski",
+      "Login": "Brad Rydzewski",
       "Avatar": ""
     },
     "Committer": {
       "Name": "GitHub",
       "Email": "noreply@github.com",
       "Date": "2018-06-19T19:03:12-07:00",
-      "Login": "web-flow",
+      "Login": "GitHub",
       "Avatar": ""
     },
     "Link": "https://github.com/bradrydzewski/drone-test-go/compare/v0.0.1"
   },
   "Sender": {
     "Login": "bradrydzewski",
-    "Name": "",
+    "Name": "bradrydzewski",
     "Email": "",
     "Avatar": "https://avatars1.githubusercontent.com/u/817538?v=4"
   }

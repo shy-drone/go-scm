@@ -1,6 +1,6 @@
 {
   "Ref": "refs/heads/feature-branch",
-  "BaseRef": "refs/heads/master",
+  "BaseRef": "",
   "Before": "0000000000000000000000000000000000000000",
   "After": "d2b75aa7797ec26b088fa2dd527e9d2c052fcedd",
   "Repo": {
@@ -20,14 +20,14 @@
     "Sha": "d2b75aa7797ec26b088fa2dd527e9d2c052fcedd",
     "Message": "Update .drone.yml",
     "Author": {
-      "Name": "Brad Rydzewski",
+      "Name": "bradrydzewski",
       "Email": "brad.rydzewski@gmail.com",
       "Date": "2018-06-19T19:03:12-07:00",
       "Login": "bradrydzewski",
       "Avatar": ""
     },
     "Committer": {
-      "Name": "GitHub",
+      "Name": "web-flow",
       "Email": "noreply@github.com",
       "Date": "2018-06-19T19:03:12-07:00",
       "Login": "web-flow",
@@ -37,7 +37,7 @@
   },
   "Sender": {
     "Login": "bradrydzewski",
-    "Name": "",
+    "Name": "bradrydzewski",
     "Email": "",
     "Avatar": "https://avatars1.githubusercontent.com/u/817538?v=4"
   }
