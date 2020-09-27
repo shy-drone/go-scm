@@ -1,5 +1,5 @@
 {
-  "Action": "unlabeled",
+  "Action": "merged",
   "Repo": {
     "ID": "13933572",
     "Namespace": "bradrydzewski",
@@ -16,7 +16,7 @@
   "PullRequest": {
     "Number": 1,
     "Title": "Update .drone.yml",
-    "Body": "",
+    "Body": "this is an edit",
     "Sha": "d2b75aa7797ec26b088fa2dd527e9d2c052fcedd",
     "Ref": "refs/pull/1/head",
     "Source": "master",
@@ -43,7 +43,7 @@
       "Avatar": "https://avatars1.githubusercontent.com/u/817538?v=4"
     },
     "Created": "2018-06-22T23:54:09Z",
-    "Updated": "2018-06-25T19:06:36Z"
+    "Updated": "2018-06-25T19:13:41Z"
   },
   "Sender": {
     "Login": "bradrydzewski",

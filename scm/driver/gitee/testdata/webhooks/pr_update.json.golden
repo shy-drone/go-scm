@@ -1,5 +1,5 @@
 {
-  "Action": "labeled",
+  "Action": "updated",
   "Repo": {
     "ID": "13933572",
     "Namespace": "bradrydzewski",
@@ -16,8 +16,8 @@
   "PullRequest": {
     "Number": 1,
     "Title": "Update .drone.yml",
-    "Body": "",
-    "Sha": "d2b75aa7797ec26b088fa2dd527e9d2c052fcedd",
+    "Body": "this is an edit",
+    "Sha": "8102e371cd01cf668893cb2d04a04d52331b1dc9",
     "Ref": "refs/pull/1/head",
     "Source": "master",
     "Target": "bradrydzewski-patch-1",
@@ -32,7 +32,7 @@
       "Name": "bradrydzewski-patch-1"
     },
     "Head": {
-        "Sha": "d2b75aa7797ec26b088fa2dd527e9d2c052fcedd",
+        "Sha": "8102e371cd01cf668893cb2d04a04d52331b1dc9",
         "Path": "refs/heads/master",
         "Name": "master"
     },
@@ -43,17 +43,7 @@
       "Avatar": "https://avatars1.githubusercontent.com/u/817538?v=4"
     },
     "Created": "2018-06-22T23:54:09Z",
-    "Updated": "2018-06-25T19:05:03Z",
-    "labels": [
-      {
-        "name": "bug",
-        "color": "fc2927"
-      },
-      {
-        "name": "documentation",
-        "color": "fc2929"
-      }
-    ]
+    "Updated": "2018-06-25T19:21:45Z"
   },
   "Sender": {
     "Login": "bradrydzewski",

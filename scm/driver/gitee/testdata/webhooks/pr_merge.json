@@ -1,5 +1,5 @@
 {
-  "action": "labeled",
+  "action": "merge",
   "number": 1,
   "pull_request": {
     "url": "https://gitee.com/api/v5//repos/bradrydzewski/drone-test-go/pulls/1",
@@ -33,9 +33,9 @@
       "type": "User",
       "site_admin": false
     },
-    "body": "",
+    "body": "this is an edit",
     "created_at": "2018-06-22T23:54:09Z",
-    "updated_at": "2018-06-25T19:05:03Z",
+    "updated_at": "2018-06-25T19:13:41Z",
     "closed_at": null,
     "merged_at": null,
     "merge_commit_sha": null,
@@ -50,22 +50,7 @@
 
     ],
     "labels": [
-      {
-        "id": 63063480,
-        "node_id": "MDU6TGFiZWw2MzA2MzQ4MA==",
-        "url": "https://gitee.com/api/v5//repos/bradrydzewski/drone-test-go/labels/bug",
-        "name": "bug",
-        "color": "fc2927",
-        "default": true
-      },
-      {
-        "id": 63063480,
-        "node_id": "MDU6TGFiZWw2MzA2MzQ4MA==",
-        "url": "https://gitee.com/api/v5//repos/bradrydzewski/drone-test-go/labels/bug",
-        "name": "documentation",
-        "color": "fc2929",
-        "default": true
-      }
+
     ],
     "milestone": null,
     "commits_url": "https://gitee.com/api/v5//repos/bradrydzewski/drone-test-go/pulls/1/commits",
@@ -337,9 +322,9 @@
     },
     "author_association": "COLLABORATOR",
     "merged": false,
-    "mergeable": false,
-    "rebaseable": false,
-    "mergeable_state": "dirty",
+    "mergeable": null,
+    "rebaseable": null,
+    "mergeable_state": "unknown",
     "merged_by": null,
     "comments": 0,
     "review_comments": 0,
@@ -348,14 +333,6 @@
     "additions": 1,
     "deletions": 4,
     "changed_files": 1
-  },
-  "label": {
-    "id": 63063480,
-    "node_id": "MDU6TGFiZWw2MzA2MzQ4MA==",
-    "url": "https://gitee.com/api/v5//repos/bradrydzewski/drone-test-go/labels/bug",
-    "name": "bug",
-    "color": "fc2929",
-    "default": true
   },
   "repository": {
     "id": 13933572,

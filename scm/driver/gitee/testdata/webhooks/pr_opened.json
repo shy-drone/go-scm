@@ -1,5 +1,5 @@
 {
-  "action": "opened",
+  "action": "open",
   "number": 1,
   "pull_request": {
     "url": "https://gitee.com/api/v5//repos/bradrydzewski/drone-test-go/pulls/1",

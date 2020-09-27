@@ -89,16 +89,6 @@ func (s *webhookService) parsePullRequestHook(data []byte) (scm.Webhook, error) 
 		return nil, err
 	}
 	dst := convertPullRequestHook(src)
-	switch src.Action {
-	case "assign", "test", "approved", "tested", "merge":
-		return nil, nil
-	case "open":
-		dst.Action = scm.ActionOpen
-	case "close":
-		// if merged == true
-		//    dst.Action = scm.ActionMerge
-		dst.Action = scm.ActionClose
-	}
 	return dst, nil
 }
 
@@ -317,7 +307,7 @@ func convertTagHook(src *pushHook) *scm.TagHook {
 
 func convertPullRequestHook(src *pullRequestHook) *scm.PullRequestHook {
 	return &scm.PullRequestHook{
-		// Action        Action
+		Action: convertAction(src.Action),
 		Repo: scm.Repository{
 			ID:        fmt.Sprint(src.Repository.ID),
 			Namespace: src.Repository.Owner.Login,
@@ -330,6 +320,33 @@ func convertPullRequestHook(src *pullRequestHook) *scm.PullRequestHook {
 		},
 		PullRequest: *convertPullRequest(&src.PullRequest),
 		Sender:      *convertUser(&src.Sender),
+	}
+}
+
+func convertAction(src string) (action scm.Action) {
+	switch src {
+	case "create", "created":
+		return scm.ActionCreate
+	case "delete", "deleted":
+		return scm.ActionDelete
+	case "update", "updated", "edit", "edited":
+		return scm.ActionUpdate
+	case "open", "opened":
+		return scm.ActionOpen
+	case "reopen", "reopened":
+		return scm.ActionReopen
+	case "close", "closed":
+		return scm.ActionClose
+	case "label", "labeled":
+		return scm.ActionLabel
+	case "unlabel", "unlabeled":
+		return scm.ActionUnlabel
+	case "merge", "merged":
+		return scm.ActionMerge
+	case "synchronize", "synchronized":
+		return scm.ActionSync
+	default:
+		return
 	}
 }
 

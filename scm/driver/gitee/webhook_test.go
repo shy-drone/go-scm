@@ -79,46 +79,37 @@ func TestWebhooks(t *testing.T) {
 		// pull request events
 		//
 
-		// pull request hooks
+		// pull request opened
 		{
 			event:  "Merge Request Hook",
-			before: "testdata/webhooks/pull_request_opened.json",
-			after:  "testdata/webhooks/pull_request_opened.json.golden",
+			before: "testdata/webhooks/pr_opened.json",
+			after:  "testdata/webhooks/pr_opened.json.golden",
 			obj:    new(scm.PullRequestHook),
 		},
+		// pull request updated
 		{
 			event:  "Merge Request Hook",
-			before: "testdata/webhooks/pull_request_edited.json",
-			after:  "testdata/webhooks/pull_request_edited.json.golden",
+			before: "testdata/webhooks/pr_update.json",
+			after:  "testdata/webhooks/pr_update.json.golden",
 			obj:    new(scm.PullRequestHook),
 		},
+		// pull request closed
 		{
 			event:  "Merge Request Hook",
-			before: "testdata/webhooks/pull_request_synchronized.json",
-			after:  "testdata/webhooks/pull_request_synchronized.json.golden",
+			before: "testdata/webhooks/pr_closed.json",
+			after:  "testdata/webhooks/pr_closed.json.golden",
 			obj:    new(scm.PullRequestHook),
 		},
+		// pull request merged
 		{
 			event:  "Merge Request Hook",
-			before: "testdata/webhooks/pull_request_closed.json",
-			after:  "testdata/webhooks/pull_request_closed.json.golden",
-			obj:    new(scm.PullRequestHook),
-		},
-		{
-			event:  "Merge Request Hook",
-			before: "testdata/webhooks/pull_request_reopened.json",
-			after:  "testdata/webhooks/pull_request_reopened.json.golden",
-			obj:    new(scm.PullRequestHook),
-		},
-		{
-			event:  "Merge Request Hook",
-			before: "testdata/webhooks/pull_request_merged.json",
-			after:  "testdata/webhooks/pull_request_merged.json.golden",
+			before: "testdata/webhooks/pr_merge.json",
+			after:  "testdata/webhooks/pr_merge.json.golden",
 			obj:    new(scm.PullRequestHook),
 		},
 	}
 
-	for _, test := range tests[5:6] {
+	for _, test := range tests {
 		before, err := ioutil.ReadFile(test.before)
 		if err != nil {
 			t.Error(err)
